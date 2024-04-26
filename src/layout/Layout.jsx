@@ -4,13 +4,11 @@ import ProfileMenu from "../components/ProfileMenu";
 import { GoHomeFill } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { BiLibrary } from "react-icons/bi";
+import { Link, Outlet } from "react-router-dom";
 
+function Layout() {
 
-
-
-
-
-function Layout({ children }) {
+    let token = location.hash.split('=')[1].split('&')[0]
 
     return (
         <>
@@ -31,22 +29,28 @@ function Layout({ children }) {
                 <img src="/icons/Spotify_big_logo.svg" alt="logo" className="pl-6" />
                 <nav>
                     <ul>
-                        <li className="text-white flex items-center justify-start gap-6 py-3 px-6 w-[280px] rounded-md cursor-pointer">
-                            <GoHomeFill size={24} />
-                            <span className="text-lg font-bold">Home</span>
-                        </li>
-                        <li className="text-white flex items-center justify-start gap-6 py-3 px-6">
-                            <FiSearch size={24} />
-                            <span className="text-lg font-bold">Search</span>
-                        </li>
-                        <li className="text-white flex items-center justify-start gap-6 py-3 px-6">
-                            <BiLibrary size={24} />
-                            <span className="text-lg font-bold">Your Library</span>
-                        </li>
+                        <Link to={'/'}>
+                            <li className="cursor-pointer text-white flex items-center justify-start gap-6 py-3 px-6 w-[280px] rounded-md  hover:bg-[#282828] rounded-md transition">
+                                <GoHomeFill size={24} />
+                                <span className="text-lg font-bold">Home</span>
+                            </li>
+                        </Link>
+                        <Link to={'/search'}>
+                            <li className="cursor-pointer text-white flex items-center justify-start gap-6 py-3 px-6 hover:bg-[#282828] rounded-md transition">
+                                <FiSearch size={24} />
+                                <span className="text-lg font-bold">Search</span>
+                            </li>
+                        </Link>
+                        <Link to={'/library'}>
+                            <li className="cursor-pointer text-white flex items-center justify-start gap-6 py-3 px-6 hover:bg-[#282828] rounded-md transition">
+                                <BiLibrary size={24} />
+                                <span className="text-lg font-bold">Your Library</span>
+                            </li>
+                        </Link>
                     </ul>
                 </nav>
             </aside>
-            {children}
+            <Outlet />
             <div></div>
         </>
     )
