@@ -8,7 +8,7 @@ import { Link, Outlet } from "react-router-dom";
 
 function Layout() {
 
-    let token = location.hash.split('=')[1].split('&')[0]
+    // let token = location.hash.split('=')[1].split('&')[0]
 
     return (
         <>
