@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 export default function Search() {
 
     return (
-        <div className="pl-[341px]">
+        <div>
             <div className='title_playlist w-full pt-10'>
                 <div className="search w-[470px] bg-white h-12 rounded-3xl cursor-pointer flex items-center py-2 px-5 gap-3.5">
                     <CiSearch size={28} />

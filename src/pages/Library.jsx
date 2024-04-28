@@ -5,7 +5,7 @@ export default function Search() {
 
     return (
         <>
-            <div className="shows_container pt-12 pl-[341px] pr-10">
+            <div className="shows_container pt-12 pr-10">
                 <div className="shows_header flex justify-between items-center pb-8 select-none">
                     <h1 className='text-white font-bold text-3xl'>Shows you might like</h1>
                     <button className="see_all text-white text-lg font-bold">SEE ALL</button>

@@ -4,11 +4,31 @@ import ProfileMenu from "../components/ProfileMenu";
 import { GoHomeFill } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { BiLibrary } from "react-icons/bi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Layout() {
 
-    // let token = location.hash.split('=')[1].split('&')[0]
+    const [token, setToken] = useState('')
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        let token = localStorage.getItem('token')
+        let hash = location.hash
+
+        if (!token && hash) {
+            token = hash.split('=')[1].split('&')[0]
+
+            location.href = ''
+            localStorage.setItem('token', token)
+        }
+
+        setToken(token)
+    }, [])
+
+    if (!token) {
+        navigate('/login')
+    }
 
     return (
         <>
@@ -50,7 +70,9 @@ function Layout() {
                     </ul>
                 </nav>
             </aside>
-            <Outlet />
+            <main className="pl-[345px]">
+                <Outlet />
+            </main>
             <div></div>
         </>
     )
