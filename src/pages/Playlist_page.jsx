@@ -24,11 +24,13 @@ export default function PLaylist_page() {
 
     return (
         <>
-            <h1>playlist</h1>
+            <h1 className="text-white pb-5">PLaylist</h1>
 
             <ul>
                 {tracks.map(item => (
-                    <li key={item.track.id}>{item.track.name}</li>
+                    <li className="text-white flex justify-between w-[600px] items-center pb-5" key={item.track.id}>{item.track.name}
+                        <audio src={item.track.preview_url} controls></audio>
+                    </li>
                 ))}
             </ul>
         </>
