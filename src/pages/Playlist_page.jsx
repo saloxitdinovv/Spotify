@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
+    const [playlist, setPLaylist] = useState([])
 
     useEffect(() => {
         const id = location.pathname.split('/').at(-1)
@@ -18,13 +19,24 @@ export default function PLaylist_page() {
                 setTracks(res.items)
             })
 
-    }, [])
-    console.log(tracks);
+        fetch(`${import.meta.env.VITE_PUBLIC_URL}/playlists/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                setPLaylist(res)
+                console.log(res);
+            })
 
+    }, [])
 
     return (
         <>
-            <h1 className="text-white pb-5">PLaylist</h1>
+            <div className="playlist_head">
+            <img className="w-[300px] h-[300px] object-cover" src={playlist.images[0].url} alt="" />
+            </div>
 
             <ul>
                 {tracks.map(item => (

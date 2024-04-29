@@ -92,7 +92,7 @@ function Layout() {
                     </button>
                 </div>
                 <div className="player">
-                    <audio src="" controls></audio>
+                    <audio className="main_player" src="" controls></audio>
                 </div>
                 <div className="player_info flex items-center gap-3">
                     <button className="microphone">
