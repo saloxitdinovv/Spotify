@@ -1,24 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
-
+import { FaUserCircle } from "react-icons/fa";
 
 function ProfileMenu() {
     const [isOpen, setIsOpen] = useState(false)
+
+    const [token, setToken] = useState(
+        localStorage.getItem('token')
+    )
+
+    const [profile, setProfile] = useState([])
 
     function logOut() {
         localStorage.removeItem('token')
         location.reload()
     }
 
+    useEffect(() => {
+        fetch(import.meta.env.VITE_PUBLIC_URL + '/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                setProfile(res)
+            })
+    }, [])
+
+    console.log(profile);
 
     return (
         <>
             <div onClick={() => setIsOpen(!isOpen)}
-                className="cursor-pointer flex items-center gap-2 bg-[#0A0A0A] rounded-3xl p-0.5 text-white select-none"
+                className="cursor-pointer flex items-center gap-2 bg-[#0A0A0A] rounded-3xl p-1 text-white select-none"
             >
-                <img className="rounded-full object-cover" src="/images/user.png" alt="" />
-                <span>User</span>
+                {/* <img className="rounded-full object-cover" src="/images/user.png" alt="" /> */}
+                <FaUserCircle size={35} />
+                <span>{profile.display_name}</span>
                 <button>
                     <IoMdArrowDropdown size={24} />
                 </button>
@@ -32,7 +52,7 @@ function ProfileMenu() {
                                 <LuExternalLink size={25} />
                             </li>
                             <li className="cursor-pointer">Profile</li>
-                            <li 
+                            <li
                                 onClick={() => logOut()}
                                 className="cursor-pointer"
                             >Log out</li>

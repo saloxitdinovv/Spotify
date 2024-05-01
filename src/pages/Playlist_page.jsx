@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { FaHeart } from "react-icons/fa";
+import { Audio } from 'react-loader-spinner'
 
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
@@ -45,11 +46,10 @@ export default function PLaylist_page() {
 
     }, [])
 
-    console.log(playlist);
 
     return (
         <>
-            <div className="playlist_head text-white uppercase pb-[30px]">
+            {/* <div className="playlist_head text-white uppercase pb-[30px]">
                 {
                     // <img className="w-[300px] h-[300px] object-cover" src={playlist.images[0].url} alt="" />
                 }
@@ -61,11 +61,53 @@ export default function PLaylist_page() {
 
                     <h1 className="descriptions">{playlist.description}</h1>
                 </div>
-            </div>
+            </div> */}
+
+            {
+                playlist?.tracks ? (
+                    <section className="flex gap-6 pt-6 pb-10">
+                        <div className="playlist_img">
+                            <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
+                        </div>
+                        <div className="playlist_info flex flex-col justify-end gap-3">
+                            <h3 className="text-xl uppercase font-bold text-white">{playlist.type}</h3>
+                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize    ">{playlist.name}</h1>
+                            <p className="text-[#cbc8c4]">{playlist.description}</p>
+                            <div className="flex  text-[#cbc8c4]">
+                                <span className="text-white cursor-pointer hover:underline">{playlist.owner.display_name}</span>
+                                {/* <h5>, {playlist.tracks.items.length} треков</h5> */}
+                                <Audio
+                                    height="28"
+                                    width="28"
+                                    color="#65D36E"
+                                    ariaLabel="audio-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClass="wrapper-class"
+                                    visible={true}
+                                />  
+                            </div>
+                        </div>
+                    </section>
+                ) : (
+                    <section className="flex gap-6 pt-6 pb-10">
+                        <div className="playlist_img max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)] bg-[#c4c4c4]"></div>
+                        <div className="playlist_info flex flex-col justify-end gap-3">
+                            <h3 className="text-xl uppercase font-bold text-white">/</h3>
+                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize    ">/</h1>
+                            <p className="text-[#cbc8c4]">{playlist.description}</p>
+                            <div className="flex  text-[#cbc8c4]">
+                                <span className="text-white cursor-pointer hover:underline">/</span>
+                                <h5> треков</h5>
+                            </div>
+                        </div>
+                    </section>
+                )
+            }
+
 
             <ul className="flex flex-col gap-5">
                 {tracks.map((item, index) => (
-                    <li className="text-white flex items-center cursor-pointer" key={item.track.id}>
+                    <li className="text-white flex items-center cursor-pointer w-full justify-between pr-10" key={item.track.id}>
                         <span className="number text-right pr-5 w-10">{index + 1}</span>
                         <div className="song_name_info flex gap-5 w-[400px]">
                             <img src={item.track.album.images.at(-1).url} className="w-[50px]" alt="" />
