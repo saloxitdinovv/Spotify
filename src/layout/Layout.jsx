@@ -12,10 +12,10 @@ import { PiQueueFill } from "react-icons/pi";
 import { CgLaptop } from "react-icons/cg";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { TbArrowsDiagonal } from "react-icons/tb";
+import Player from './../components/Player';
 
 
 function Layout() {
-
     const [token, setToken] = useState('')
     const navigate = useNavigate()
 
@@ -80,39 +80,7 @@ function Layout() {
             <main className="pl-[345px]">
                 <Outlet />
             </main>
-            <div className="player_box fixed bottom-0 left-0 h-[112px] bg-[#181818] w-full p-5 flex justify-between">
-                <div className="song_box flex items-center gap-[15px]">
-                    <img src="/images/song_poster.png" alt="" className="song_poster" />
-                    <div className="song_info">
-                        <h1 className="song_name text-lg font-bold text-white">Dreaming On</h1>
-                        <h1 className="singer text-[#B3B3B3] font-bold text-base mt-[-5px]">NEFFEX</h1>
-                    </div>
-                    <button className="liked">
-                        <FaHeart color="#1DB954" size={20} />
-                    </button>
-                </div>
-                <div className="player">
-                    <audio className="main_player" src="" controls></audio>
-                </div>
-                <div className="player_info flex items-center gap-3">
-                    <button className="microphone">
-                        <TbMicrophone2 color="#B3B3B3" size={20} />
-                    </button>
-                    <button className="queue">
-                        <PiQueueFill size={25} color="#B3B3B3" />
-                    </button>
-                    <button className="device">
-                        <CgLaptop size={25} color="#1B9145" />
-                    </button>
-                    <button className="speaker">
-                        <HiOutlineSpeakerWave color="#B3B3B3" size={24} />
-                    </button>
-                    <div className="volume w-[116px] h-1 rounded bg-[#C4C4C4]"></div>
-                    <button className="arrows">
-                        <TbArrowsDiagonal size={20} color="#B3B3B3" />
-                    </button>
-                </div>
-            </div>
+            <Player />
         </>
     )
 }

@@ -29,8 +29,6 @@ function ProfileMenu() {
             })
     }, [])
 
-    console.log(profile);
-
     return (
         <>
             <div onClick={() => setIsOpen(!isOpen)}

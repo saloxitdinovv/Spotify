@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react"
 import { FaHeart } from "react-icons/fa";
 import { Audio } from 'react-loader-spinner'
+import Track from "../components/Track";
+import { artistsString, toMinutes } from "../../helpers/utils";
+import { PLaylistContext } from "../../context/PlaylistCTX";
 
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
     const [playlist, setPLaylist] = useState([])
+    const [playlist_ctx, setPLaylist_ctx] = useState(PLaylistContext)
+
+
 
     function formatDuration(duration_ms) {
         const minutes = Math.floor(duration_ms / 60000);
@@ -32,18 +38,10 @@ export default function PLaylist_page() {
             .then(res => res.json())
             .then(res => {
                 setPLaylist(res)
+                setTracks(res.tracks.items)
+                console.log(res.tracks.items);
+                setPLaylist_ctx(res.tracks.items)
             })
-
-        fetch(`${import.meta.env.VITE_PUBLIC_URL}/playlists/${id}/tracks`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(res => res.json())
-            .then(res => {
-                setTracks(res.items)
-            })
-
     }, [])
 
 
@@ -75,16 +73,7 @@ export default function PLaylist_page() {
                             <p className="text-[#cbc8c4]">{playlist.description}</p>
                             <div className="flex  text-[#cbc8c4]">
                                 <span className="text-white cursor-pointer hover:underline">{playlist.owner.display_name}</span>
-                                {/* <h5>, {playlist.tracks.items.length} треков</h5> */}
-                                <Audio
-                                    height="28"
-                                    width="28"
-                                    color="#65D36E"
-                                    ariaLabel="audio-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass="wrapper-class"
-                                    visible={true}
-                                />  
+                                <h5>, {playlist.tracks.items.length} треков</h5>
                             </div>
                         </div>
                     </section>
@@ -106,33 +95,45 @@ export default function PLaylist_page() {
 
 
             <ul className="flex flex-col gap-5">
-                {tracks.map((item, index) => (
-                    <li className="text-white flex items-center cursor-pointer w-full justify-between pr-10" key={item.track.id}>
-                        <span className="number text-right pr-5 w-10">{index + 1}</span>
-                        <div className="song_name_info flex gap-5 w-[400px]">
-                            <img src={item.track.album.images.at(-1).url} className="w-[50px]" alt="" />
-                            <div className="info">
-                                <div className="song_name text-white text-base">
-                                    {item.track.name}
-                                </div>
-                                <div className="artists text-[#B3B3B3] text-sm">
-                                    {item.track.artists[0].name}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="album_info text-sm text-[#B3B3B3] text-left w-[300px]">{item.track.album.name}</div>
-                        <div className="data w-[200px]">
-                            {formatDate(item.added_at)}
-                        </div>
-                        <div className="last_box flex items-center justify-end w-[190px] gap-8">
-                            <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
-                            <span className="duration">
-                                {
-                                    formatDuration(item.track.duration_ms)
-                                }
-                            </span>
-                        </div>
-                    </li>
+                {tracks.map((item, idx) => (
+                    // <Track />
+                    // <li className="text-white flex items-center cursor-pointer w-full justify-between pr-10" key={item.track.id}>
+                    //     <span className="number text-right pr-5 w-10">{index + 1}</span>
+                    //     <div className="song_name_info flex gap-5 w-[400px]">
+                    //         <img src={item.track.album.images.at(-1).url} className="w-[50px]" alt="" />
+                    //         <div className="info">
+                    //             <div className="song_name text-white text-base">
+                    //                 {item.track.name}
+                    //             </div>
+                    //             <div className="artists text-[#B3B3B3] text-sm">
+                    //                 {item.track.artists[0].name}
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    //     <div className="album_info text-sm text-[#B3B3B3] text-left w-[300px]">{item.track.album.name}</div>
+                    //     <div className="data w-[200px]">
+                    //         {formatDate(item.added_at)}
+                    //     </div>
+                    //     <div className="last_box flex items-center justify-end w-[190px] gap-8">
+                    //         <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
+                    //         <span className="duration">
+                    //             {
+                    //                 formatDuration(item.track.duration_ms)
+                    //             }
+                    //         </span>
+                    //     </div>
+                    // </li>
+                    <Track
+                        img={item.track.album.images[0].url}
+                        name={item.track.name}
+                        singers={artistsString(item.track.artists)}
+                        duration={toMinutes(item.track.duration_ms)}
+                        album={item.track.album.name}
+                        date={item.track.release_date}
+                        src={item.track.preview_url}
+                        index={idx}
+                        key={idx}
+                    />
                 ))}
             </ul>
         </>
