@@ -47,7 +47,7 @@ export default function PLayer() {
                     <FaHeart color="#1DB954" size={20} />
                 </button>
             </div>
-            <div className="player flex items-center flex-col gap-2">
+            <div className="player flex items-center flex-col gap-2 w-[48%]">
                 <audio className="main_player" src={track?.src} controls hidden></audio>
                 <div className="flex items-center gap-2" >
                     <button

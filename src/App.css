@@ -4,9 +4,9 @@
 
 body {
     height: 100%;
-    background: rgb(34, 34, 34);
+    background: #161616;
     background-repeat: no-repeat;
-    background: linear-gradient(180deg, #222222 0%, rgba(31, 31, 31, 1) 12%, rgba(23, 23, 23, 1) 26%, rgba(22, 22, 22, 1) 33%, rgba(21, 21, 21, 1) 41%, rgba(19, 19, 19, 1) 45%, rgba(18, 18, 18, 1) 55%, rgba(18, 18, 18, 1) 75%, rgba(18, 18, 18, 1) 85%, rgba(18, 18, 18, 1) 100%);
+    background: linear-gradient(180deg, #161616 0%, #161616 12%, #161616 26%, #161616 33%, #161616 41%, rgba(19, 19, 19, 1) 45%, rgba(18, 18, 18, 1) 55%, rgba(18, 18, 18, 1) 75%, rgba(18, 18, 18, 1) 85%, rgba(18, 18, 18, 1) 100%);
     padding-bottom: 150px;
 }
 
@@ -14,7 +14,7 @@ body {
 .range-input {
     -webkit-appearance: none;
     appearance: none;
-    width: 600px;
+    width: 550px;
     cursor: pointer;
     outline: none;
     border-radius: 15px;

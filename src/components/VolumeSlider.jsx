@@ -3,21 +3,27 @@ import { useState, useEffect } from "react";
 export default function VolumeSlider() {
   const [volumeValue, setVolumeValue] = useState(50);
   const [isHovered, setIsHovered] = useState(false);
+  const audio = document.querySelector('audio');
 
   useEffect(() => {
-    const sliderEl = document.getElementById("volumeRange");
-
     const handleInputChange = (event) => {
       const tempVolumeValue = Number(event.target.value);
       setVolumeValue(tempVolumeValue);
+      audio.volume = tempVolumeValue / 100;
     };
+
+    const sliderEl = document.getElementById("volumeRange");
 
     sliderEl.addEventListener("input", handleInputChange);
 
     return () => {
       sliderEl.removeEventListener("input", handleInputChange);
     };
-  }, []);
+  }, [audio]);
+
+  useEffect(() => {
+    console.log("Громкость изменена на:", volumeValue / 100);
+  }, [volumeValue]);
 
   const volumeProgress = (volumeValue / 100) * 100;
 
@@ -34,6 +40,7 @@ export default function VolumeSlider() {
           height: '5px',
           background: `linear-gradient(to right, #28a745 ${volumeProgress}%, #707070 ${volumeProgress}%)`
         }}
+        onChange={(event) => setVolumeValue(Number(event.target.value))}
       />
       <style jsx>{`
         .volume-range-input::-webkit-slider-thumb {

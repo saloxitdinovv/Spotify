@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import AudioSpinner from "./Audio";
 import { TrackContext } from "../../context/TrackCTX";
+import { FaHeart } from "react-icons/fa";
 
 
 function Track({ src, img, name, singers, album, date, duration, index }) {
@@ -9,23 +10,29 @@ function Track({ src, img, name, singers, album, date, duration, index }) {
     return (
         <div
             onClick={() => setTrack({ img, name, singers, album, date, duration, index, src })}
-            className="track grid grid-cols-5 items-center px-5 py-2 rounded cursor-pointer hover:bg-[#2a2a2a]"
+            className="track grid grid-cols-6 items-center px-5 py-2 rounded cursor-pointer hover:bg-[#2a2a2a]"
         >
             <div className="flex items-center gap-5 col-start-1 col-end-3">
-                {
-                    index === track?.index ? <AudioSpinner /> :
-                        <span className="text-lg">{index + 1}</span>
-                }
-                <img className="w-11 h-11 rounded" src={img} alt={name} />
+                <div className="number w-[25px] flex items-center justify-center text-[#B3B3B3]">
+                    {
+                        index === track?.index ? console.log(track) :
+                            <span className="text-lg">{index + 1}</span>
+                    }
+                </div>
+                <img className="w-11 h-11" src={img} alt={name} />
                 <div>
-                    <h4 className="text-white cursor-pointer hover:underline">{name}</h4>
-                    <h4 className="text-sm hover:underline">{singers}</h4>
+                    {
+                        index === track?.index ? <h4 className="text-[#65D36E] cursor-pointer hover:underline text-base">{name}</h4> :
+                            <h4 className="text-white cursor-pointer hover:underline text-base">{name}</h4>
+                    }
+                    <h4 className="text-sm hover:underline text-sm text-[#B3B3B3]">{singers}</h4>
                 </div>
             </div>
 
-            <h4>{album}</h4>
+            <h4 className="text-[#B3B3B3] text-sm">{album}</h4>
             <h4>{date}</h4>
-            <h4 className="flex justify-center">{duration}</h4>
+            <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
+            <h4 className="flex justify-center text-[#ffff] text-base">{duration}</h4>
         </div>
     );
 }

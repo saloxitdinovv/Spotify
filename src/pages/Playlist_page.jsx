@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react"
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaPlay } from "react-icons/fa";
 import { Audio } from 'react-loader-spinner'
 import Track from "../components/Track";
 import { artistsString, toMinutes } from "../../helpers/utils";
 import { PLaylistContext } from "../../context/PlaylistCTX";
+import { RxDotsHorizontal } from "react-icons/rx";
+import { CiHeart } from "react-icons/ci";
+import { IoArrowDownCircleOutline } from "react-icons/io5";
+import { LuClock3 } from "react-icons/lu";
+
+
 
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
     const [playlist, setPLaylist] = useState([])
     const [playlist_ctx, setPLaylist_ctx] = useState(PLaylistContext)
+
+    console.log(playlist);
 
 
 
@@ -47,19 +55,9 @@ export default function PLaylist_page() {
 
     return (
         <>
-            {/* <div className="playlist_head text-white uppercase pb-[30px]">
-                {
-                    // <img className="w-[300px] h-[300px] object-cover" src={playlist.images[0].url} alt="" />
-                }
+            <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616] pb-10"></div>
 
-                <div className="text text-left">
-                    <h1 className="type text-lg">{playlist.type}</h1>
 
-                    <h1 className="playlist_name text-8xl">{playlist.name}</h1>
-
-                    <h1 className="descriptions">{playlist.description}</h1>
-                </div>
-            </div> */}
 
             {
                 playlist?.tracks ? (
@@ -79,63 +77,64 @@ export default function PLaylist_page() {
                     </section>
                 ) : (
                     <section className="flex gap-6 pt-6 pb-10">
-                        <div className="playlist_img max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)] bg-[#c4c4c4]"></div>
+                        <div className="playlist_img max-w-[290px] max-h-[300px] w-[250px] h-[260px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
                         <div className="playlist_info flex flex-col justify-end gap-3">
-                            <h3 className="text-xl uppercase font-bold text-white">/</h3>
-                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize    ">/</h1>
-                            <p className="text-[#cbc8c4]">{playlist.description}</p>
-                            <div className="flex  text-[#cbc8c4]">
-                                <span className="text-white cursor-pointer hover:underline">/</span>
-                                <h5> треков</h5>
-                            </div>
+                            <div className="text-xl uppercase font-bold text-white w-[130px] h-5 bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="text-7xl font-bold w-[80%] text-5xl text-white capitalize bg-[#c4c4c4] opacity-20 rounded-lg w-[500px] h-[150px]"></div>
+                            <div className="text-[#cbc8c4] w-[355px] h-[25px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="text-[#cbc8c4] w-[355px] h-[25px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
                         </div>
                     </section>
                 )
             }
 
+            <div className="tools flex gap-10">
+                <button className="p-5 rounded-full bg-[#1fdf64] flex items-center justify-center hover:scale-[1.03]">
+                    <FaPlay color="black" size={24} />
+                </button>
 
-            <ul className="flex flex-col gap-5">
-                {tracks.map((item, idx) => (
-                    // <Track />
-                    // <li className="text-white flex items-center cursor-pointer w-full justify-between pr-10" key={item.track.id}>
-                    //     <span className="number text-right pr-5 w-10">{index + 1}</span>
-                    //     <div className="song_name_info flex gap-5 w-[400px]">
-                    //         <img src={item.track.album.images.at(-1).url} className="w-[50px]" alt="" />
-                    //         <div className="info">
-                    //             <div className="song_name text-white text-base">
-                    //                 {item.track.name}
-                    //             </div>
-                    //             <div className="artists text-[#B3B3B3] text-sm">
-                    //                 {item.track.artists[0].name}
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    //     <div className="album_info text-sm text-[#B3B3B3] text-left w-[300px]">{item.track.album.name}</div>
-                    //     <div className="data w-[200px]">
-                    //         {formatDate(item.added_at)}
-                    //     </div>
-                    //     <div className="last_box flex items-center justify-end w-[190px] gap-8">
-                    //         <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
-                    //         <span className="duration">
-                    //             {
-                    //                 formatDuration(item.track.duration_ms)
-                    //             }
-                    //         </span>
-                    //     </div>
-                    // </li>
-                    <Track
-                        img={item.track.album.images[0].url}
-                        name={item.track.name}
-                        singers={artistsString(item.track.artists)}
-                        duration={toMinutes(item.track.duration_ms)}
-                        album={item.track.album.name}
-                        date={item.track.release_date}
-                        src={item.track.preview_url}
-                        index={idx}
-                        key={idx}
-                    />
-                ))}
-            </ul>
+                <button className="like">
+                    <CiHeart size={42} color="white" />
+                </button>
+
+                <button className="download">
+                    <IoArrowDownCircleOutline size={32} color="white" />
+                </button>
+
+                <button className="">
+                    <RxDotsHorizontal size={30} color="#cbc8c4" />
+                </button>
+            </div>
+
+            <div className="tracks_grid w-[97%] mt-8 font-medium text-[#cbc8c4]">
+                <div className="thead border-b-[1px] px-5 pb-2 mb-5 border-[#cbc8c44c] text-[#cbc8c4] grid grid-cols-6">
+                    <h4 className="flex gap-5 col-start-1 col-end-3"><span>#</span> Назвние</h4>
+                    <h4>Альбом</h4>
+                    <h4></h4>
+                    <h4></h4>
+                    <h4 className="flex justify-center">
+                        <LuClock3 color="[#cbc8c4]" />
+                    </h4>
+                </div>
+
+                {
+                    !playlist?.tracks ? (<span>loading...</span>) : (
+                        playlist.tracks.items.map((item, idx) => (
+                            <Track
+                                img={item.track.album.images[0].url}
+                                name={item.track.name}
+                                singers={artistsString(item.track.artists)}
+                                duration={toMinutes(item.track.duration_ms)}
+                                album={item.track.album.name}
+                                date={item.track.release_date}
+                                src={item.track.preview_url}
+                                index={idx}
+                                key={idx}
+                            />
+                        ))
+                    )
+                }
+            </div>
         </>
     )
 
