@@ -10,7 +10,7 @@ function ProfileMenu() {
         localStorage.getItem('token')
     )
 
-    const [profile, setProfile] = useState([])
+    const [profile, setProfile] = useState({});
 
     function logOut() {
         localStorage.removeItem('token')
@@ -27,15 +27,19 @@ function ProfileMenu() {
             .then(res => {
                 setProfile(res)
             })
-    }, [])
+    }, [token])
 
     return (
         <>
             <div onClick={() => setIsOpen(!isOpen)}
                 className="cursor-pointer flex items-center gap-2 bg-[#0A0A0A] rounded-3xl p-1 text-white select-none"
             >
-                {/* <img className="rounded-full object-cover" src="/images/user.png" alt="" /> */}
-                <FaUserCircle size={35} />
+                {profile.images && profile.images.length > 0 ? (
+                    <img className="rounded-full object-cover w-[34px]" src={profile?.images[0].url} alt="" />
+                ) : (
+                    <FaUserCircle size={34} />
+                )}
+
                 <span>{profile.display_name}</span>
                 <button>
                     <IoMdArrowDropdown size={24} />
