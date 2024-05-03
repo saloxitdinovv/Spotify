@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function VolumeSlider() {
-  const [volumeValue, setVolumeValue] = useState(50);
+  const [volumeValue, setVolumeValue] = useState(100);
   const [isHovered, setIsHovered] = useState(false);
   const audio = document.querySelector('audio');
 
