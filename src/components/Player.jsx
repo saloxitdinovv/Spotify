@@ -10,6 +10,7 @@ import VolumeSlider from './VolumeSlider';
 import { useContext, useEffect, useState } from "react";
 import { TrackContext } from "../../context/TrackCTX";
 import { PLaylistContext } from "../../context/PlaylistCTX";
+import { artistsString, toMinutes } from "../../helpers/utils";
 
 
 
@@ -20,24 +21,46 @@ export default function PLayer() {
     const { playlist_ctx } = useContext(PLaylistContext)
 
     useEffect(() => {
-        const audio = document.querySelector('audio')
-
+        let audio = document.querySelector('audio')
+        audio.src = track?.src
         audio.play()
-        console.log(track);
+        setPlay(true)
+
     }, [track])
 
     function nextTrack() {
-        console.log({playlist_ctx});
-        // setTrack(playlist_ctx[track.index + 1])
+        const curr_track = playlist_ctx[track.index + 1]
+        const next_track = {
+            img: curr_track.track.album.images[0].url,
+            name: curr_track.track.name,
+            singers: artistsString(curr_track.track.artists),
+            duration: toMinutes(curr_track.track.duration_ms),
+            album: curr_track.track.album.name,
+            date: curr_track.track.release_date,
+            src: curr_track.track.preview_url,
+            index: track.index + 1
+        }
+        setTrack(next_track)
     }
 
     function prevTrack() {
-        // setTrack(playlist_ctx[track.index - 1])
+        const curr_track = playlist_ctx[track.index - 1]
+        const prev_track = {
+            img: curr_track.track.album.images[0].url,
+            name: curr_track.track.name,
+            singers: artistsString(curr_track.track.artists),
+            duration: toMinutes(curr_track.track.duration_ms),
+            album: curr_track.track.album.name,
+            date: curr_track.track.release_date,
+            src: curr_track.track.preview_url,
+            index: track.index - 1
+        }
+        setTrack(prev_track)
     }
 
     return (
         <div className="player_box fixed bottom-0 left-0 h-[112px] bg-[#181818] w-full p-5 flex justify-between">
-            <div className="song_box flex items-center gap-[15px] w-[25%]">
+            <div className="song_box flex items-center gap-[15px] w-[20%]">
                 <img src={track?.img ? (track.img) : ('/images/song_poster.png')} alt="" className="song_poster w-[70px]" />
                 <div className="song_info">
                     <h1 className="song_name text-lg font-bold text-white">{track?.name ? (track.name) : ('Dreaming On')}</h1>
@@ -47,7 +70,7 @@ export default function PLayer() {
                     <FaHeart color="#1DB954" size={20} />
                 </button>
             </div>
-            <div className="player flex items-center flex-col gap-2 w-[48%]">
+            <div className="player flex flex-col justify-center gap-2 items-center">
                 <audio className="main_player" src={track?.src} controls hidden></audio>
                 <div className="flex items-center gap-2" >
                     <button
@@ -68,7 +91,7 @@ export default function PLayer() {
                         <MdSkipNext size={24} />
                     </button>
                 </div>
-                <div className="w-full flex items-center gap-2 text-[#c4c4c4] pl-8" >
+                <div className=" flex items-center gap-2 text-[#c4c4c4] pl-8" >
                     <span>0:57</span>
                     {/* <input type="range" className="custom-range w-[630px]" /> */}
                     <CustomRangeSliderPLayer />

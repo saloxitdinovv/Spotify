@@ -15,7 +15,7 @@ function Track({ src, img, name, singers, album, date, duration, index }) {
             <div className="flex items-center gap-5 col-start-1 col-end-3">
                 <div className="number w-[25px] flex items-center justify-center text-[#B3B3B3]">
                     {
-                        index === track?.index ? console.log(track) :
+                        index === track?.index ? <AudioSpinner /> :
                             <span className="text-lg">{index + 1}</span>
                     }
                 </div>
@@ -31,8 +31,11 @@ function Track({ src, img, name, singers, album, date, duration, index }) {
 
             <h4 className="text-[#B3B3B3] text-sm">{album}</h4>
             <h4>{date}</h4>
-            <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
-            <h4 className="flex justify-center text-[#ffff] text-base">{duration}</h4>
+            <span></span>
+            <span className="flex items-center gap-5 pl-[70px]">
+                <button className="liked"><FaHeart color="#63CF6C" size={20} /></button>
+                <h4 className="flex justify-center text-[#ffff] text-base">{duration}</h4>
+            </span>
         </div>
     );
 }

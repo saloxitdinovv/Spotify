@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { FaHeart, FaPlay } from "react-icons/fa";
 import { Audio } from 'react-loader-spinner'
 import Track from "../components/Track";
@@ -14,11 +14,7 @@ import { LuClock3 } from "react-icons/lu";
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
     const [playlist, setPLaylist] = useState([])
-    const [playlist_ctx, setPLaylist_ctx] = useState(PLaylistContext)
-
-    console.log(playlist);
-
-
+    const {playlist_ctx, setPLaylist_ctx} = useContext(PLaylistContext)
 
     function formatDuration(duration_ms) {
         const minutes = Math.floor(duration_ms / 60000);
@@ -47,7 +43,6 @@ export default function PLaylist_page() {
             .then(res => {
                 setPLaylist(res)
                 setTracks(res.tracks.items)
-                console.log(res.tracks.items);
                 setPLaylist_ctx(res.tracks.items)
             })
     }, [])

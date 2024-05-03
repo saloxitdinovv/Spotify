@@ -21,10 +21,6 @@ export default function VolumeSlider() {
     };
   }, [audio]);
 
-  useEffect(() => {
-    console.log("Громкость изменена на:", volumeValue / 100);
-  }, [volumeValue]);
-
   const volumeProgress = (volumeValue / 100) * 100;
 
   return (
