@@ -52,6 +52,22 @@ export default function PLayer() {
         setTrack(next_track)
     }
 
+    // function nextTrack() {
+    //     const nextIndex = (track.index + 1) % playlist_ctx.length;
+    //     const next_track = {
+    //         img: playlist_ctx[nextIndex].track.album.images[0].url,
+    //         name: playlist_ctx[nextIndex].track.name,
+    //         singers: artistsString(playlist_ctx[nextIndex].track.artists),
+    //         duration: toMinutes(playlist_ctx[nextIndex].track.duration_ms),
+    //         album: playlist_ctx[nextIndex].track.album.name,
+    //         date: playlist_ctx[nextIndex].track.release_date,
+    //         src: playlist_ctx[nextIndex].track.preview_url,
+    //         index: nextIndex
+    //     };
+    //     setTrack(next_track);
+    // }
+    
+
     function prevTrack() {
         const curr_track = playlist_ctx[track.index - 1]
         const prev_track = {
@@ -66,6 +82,15 @@ export default function PLayer() {
         }
         setTrack(prev_track)
     }
+
+    const togglePlay = () => {
+        if (play) {
+            audio_ref.current.pause();
+        } else {
+            audio_ref.current.play();
+        }
+        setPlay(!play);
+    };
 
     return (
         <div className="player_box fixed bottom-0 left-0 h-[112px] bg-[#181818] w-full p-5 flex justify-between">
@@ -110,9 +135,9 @@ export default function PLayer() {
                     >
                         <MdSkipPrevious size={24} />
                     </button>
-                    <button className="p-[8px] text-center bg-white rounded-full" >
+                    <button className="p-[8px] text-center bg-white rounded-full" onClick={togglePlay}>
                         {
-                            true ? <IoPlay size={24} /> : <IoPauseSharp size={24} />
+                            play ? <IoPauseSharp size={24} /> : <IoPlay size={24} />
                         }
                     </button>
                     <button
@@ -126,7 +151,7 @@ export default function PLayer() {
                     <span>0:{String(Math.round(currTime)).padStart(2, '0')}</span>
                     {/* <input type="range" className="custom-range w-[630px]" /> */}
                     <CustomRangeSliderPLayer />
-                    <span>0:57</span>
+                    <span>00:30</span>
                 </div>
             </div>
             <div className="player_info flex items-center gap-3 w-[21%]">
