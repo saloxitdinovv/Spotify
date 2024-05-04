@@ -14,7 +14,7 @@ import { LuClock3 } from "react-icons/lu";
 export default function PLaylist_page() {
     const [tracks, setTracks] = useState([])
     const [playlist, setPLaylist] = useState([])
-    const {playlist_ctx, setPLaylist_ctx} = useContext(PLaylistContext)
+    const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
 
     function formatDuration(duration_ms) {
         const minutes = Math.floor(duration_ms / 60000);
@@ -42,6 +42,7 @@ export default function PLaylist_page() {
             .then(res => res.json())
             .then(res => {
                 setPLaylist(res)
+                console.log(res);
                 setTracks(res.tracks.items)
                 setPLaylist_ctx(res.tracks.items)
             })
@@ -103,17 +104,28 @@ export default function PLaylist_page() {
 
             <div className="tracks_grid w-[97%] mt-8 font-medium text-[#cbc8c4]">
                 <div className="thead border-b-[1px] px-5 pb-2 mb-5 border-[#cbc8c44c] text-[#cbc8c4] grid grid-cols-6">
-                    <h4 className="flex gap-5 col-start-1 col-end-3"><span>#</span> Назвние</h4>
-                    <h4>Альбом</h4>
+                    <h4 className="flex gap-5 col-start-1 col-end-3"><span>#</span> TITLE</h4>
+                    <h4>ALBUM</h4>
                     <h4></h4>
-                    <h4></h4>
+                    <h4>DATE ADDED</h4>
                     <h4 className="flex justify-center">
                         <LuClock3 color="[#cbc8c4]" />
                     </h4>
                 </div>
 
                 {
-                    !playlist?.tracks ? (<span>loading...</span>) : (
+                    !playlist?.tracks ? (
+                        <div className="flex flex-col gap-5">
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                        </div>
+                    ) : (
                         playlist.tracks.items.map((item, idx) => (
                             <Track
                                 img={item.track.album.images[0].url}
@@ -121,7 +133,7 @@ export default function PLaylist_page() {
                                 singers={artistsString(item.track.artists)}
                                 duration={toMinutes(item.track.duration_ms)}
                                 album={item.track.album.name}
-                                date={item.track.release_date}
+                                date={item.added_at}
                                 src={item.track.preview_url}
                                 index={idx}
                                 key={idx}

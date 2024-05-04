@@ -6,6 +6,7 @@ import Layout from "../layout/Layout";
 export default function Home() {
     const [artists, setArtists] = useState([])
     const [albums, setAlbums] = useState([])
+    const [profile, setProfile] = useState([])
     const [token, setToken] = useState(
         localStorage.getItem('token')
     )
@@ -20,25 +21,33 @@ export default function Home() {
             .then(res => {
                 setAlbums(res.playlists.items)
             })
+
+            fetch(import.meta.env.VITE_PUBLIC_URL + '/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    setProfile(res)
+                })
+
+                fetch(import.meta.env.VITE_PUBLIC_URL + '/artists?ids=2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        setArtists(res.artists)
+                    })
         }, [])
 
-
-    useEffect(() => {
-        fetch(import.meta.env.VITE_PUBLIC_URL + '/artists?ids=2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(res => res.json())
-            .then(res => {
-                setArtists(res.artists)
-            })
-    }, [])
 
     return (
         <>
             <div className='title_playlist w-full pt-10'>
-                <h1 className='title text-white font-bold text-4xl pb-9 select-none'>Good morning</h1>
+                <h1 className='title text-white font-bold text-4xl pb-9 select-none'>Good morning, {profile.display_name}</h1>
                 <div className="playlists flex flex-wrap gap-7">
                     {
                         albums.map((item) => <PLaylist key={item.id} img_src={item.images[0].url} playlist_name={item.name} id={item.id}/>)

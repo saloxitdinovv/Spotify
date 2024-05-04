@@ -11,20 +11,29 @@ import { useContext, useEffect, useState } from "react";
 import { TrackContext } from "../../context/TrackCTX";
 import { PLaylistContext } from "../../context/PlaylistCTX";
 import { artistsString, toMinutes } from "../../helpers/utils";
+import { useRef } from "react";
 
 
 
 export default function PLayer() {
     const [play, setPlay] = useState(false)
-
+    const [currTime, setCurrTime] = useState(0)
     const { track, setTrack } = useContext(TrackContext)
     const { playlist_ctx } = useContext(PLaylistContext)
 
+    const audio_ref = useRef(null)
+
     useEffect(() => {
-        let audio = document.querySelector('audio')
-        audio.src = track?.src
-        audio.play()
-        setPlay(true)
+        if (track) {
+            audio_ref.current.src = track?.src
+
+            audio_ref.current.onloadedmetadata = () => {
+                setCurrTime(audio_ref.current.duration)
+            };
+
+            audio_ref.current.play()
+            setPlay(true)
+        }
 
     }, [track])
 
@@ -63,7 +72,18 @@ export default function PLayer() {
             <div className="song_box flex items-center gap-[15px] w-[20%]">
                 <img src={track?.img ? (track.img) : ('/images/song_poster.png')} alt="" className="song_poster w-[70px]" />
                 <div className="song_info">
-                    <h1 className="song_name text-lg font-bold text-white">{track?.name ? (track.name) : ('Dreaming On')}</h1>
+                    <h1 className="song_name text-lg font-bold text-white">
+                        {track?.name ? (
+                            track.name.length > 10 ? (
+                                track.name.substring(0, 10) + '...'
+                            ) : (
+                                track.name
+                            )
+                        ) : (
+                            'Dreaming On'
+                        )}
+                    </h1>
+
                     <h1 className="singer text-[#B3B3B3] font-bold text-base mt-[-5px]">{track?.singers ? (track.singers) : ('NEFFEX')}</h1>
                 </div>
                 <button className="liked">
@@ -71,7 +91,18 @@ export default function PLayer() {
                 </button>
             </div>
             <div className="player flex flex-col justify-center gap-2 items-center">
-                <audio className="main_player" src={track?.src} controls hidden></audio>
+                <audio
+                    controls
+                    hidden
+                    preload="metadata"
+                    ref={audio_ref}
+                    onTimeUpdate={(e) => {
+                        setCurrTime(e.target.currentTime);
+                    }}
+                    onEnded={(e) => {
+                        nextTrack()
+                    }}
+                />
                 <div className="flex items-center gap-2" >
                     <button
                         onClick={prevTrack}
@@ -92,7 +123,7 @@ export default function PLayer() {
                     </button>
                 </div>
                 <div className=" flex items-center gap-2 text-[#c4c4c4] pl-8" >
-                    <span>0:57</span>
+                    <span>0:{String(Math.round(currTime)).padStart(2, '0')}</span>
                     {/* <input type="range" className="custom-range w-[630px]" /> */}
                     <CustomRangeSliderPLayer />
                     <span>0:57</span>
@@ -107,9 +138,6 @@ export default function PLayer() {
                 </button>
                 <button className="device">
                     <CgLaptop size={25} color="#1B9145" />
-                </button>
-                <button className="speaker">
-                    <HiOutlineSpeakerWave color="#B3B3B3" size={24} />
                 </button>
                 <VolumeSlider />
                 <button className="arrows">
