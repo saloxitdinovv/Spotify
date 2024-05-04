@@ -24,7 +24,7 @@ export default function CustomRangeSliderPLayer() {
     <div className="range flex items-center">
       <input
         type="range"
-        value={sliderValue}
+        defaultValue={sliderValue}
         min={0}
         max={50}
         id="range2"
@@ -33,27 +33,6 @@ export default function CustomRangeSliderPLayer() {
           background: `linear-gradient(to right, #28a745 ${progress}%, #535353 ${progress}%)`
         }}
       />
-      <style jsx>{`
-        #range2::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 13px;
-          height: 13px;
-          background-color: white;
-          border-radius: 50%;
-          border: none;
-          transition: .2s ease-in-out;
-        }
-
-        #range2::-moz-range-thumb {
-          width: 15px;
-          height: 15px;
-          background-color: white;
-          border-radius: 50%;
-          border: none;
-          transition: .2s ease-in-out;
-        }
-      `}</style>
     </div>
   );
 }
