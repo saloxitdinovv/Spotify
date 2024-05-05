@@ -31,20 +31,29 @@ function Layout() {
         }
 
         setToken(token)
+
+
+        if (!token) {
+            navigate('/login')
+        }
     }, [])
 
-    if (!token) {
-        navigate('/login')
-    }
+
 
     return (
         <>
             <header className="w-full flex justify-between items-center pl-[341px] pr-10 py-5">
                 <div className="flex items-center gap-5">
-                    <button className="bg-[#131313] rounded-full p-2">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="bg-[#131313] rounded-full p-2"
+                    >
                         <IoIosArrowBack size={24} color="white" />
                     </button>
-                    <button className="bg-[#131313] rounded-full p-2">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="bg-[#131313] rounded-full p-2"
+                    >
                         <IoIosArrowForward size={24} color="white" />
                     </button>
                 </div>
@@ -53,7 +62,7 @@ function Layout() {
 
 
             <aside className="w-[300px] bg-black px-2.5 py-8 fixed top-0 left-0 bottom-0 flex flex-col items-start gap-7">
-                <img src="/icons/Spotify_big_logo.svg" alt="logo" className="pl-6" />
+                <img src="/images/donify_logo.png" alt="logo" className="pl-6 w-[200px]" />
                 <nav>
                     <ul>
                         <Link to={'/'}>

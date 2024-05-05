@@ -4,7 +4,7 @@ import BestResult from "../components/BestResult";
 import MiniTrack from "../components/MiniTrack";
 import Artist from "../components/Artist";
 import PlaylistCard from "../components/PlaylistCard";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { artistsString, toMinutes } from "../../helpers/utils";
 
@@ -16,6 +16,7 @@ function Search() {
     const token = localStorage.getItem('token')
 
     const [results, setResults] = useState(null)
+
 
     return (
         <>
@@ -34,7 +35,6 @@ function Search() {
                                     .then(res => res.json())
                                     .then(res => {
                                         setResults(res)
-                                        console.log(res);
                                     })
                             }
                         }}
@@ -45,7 +45,7 @@ function Search() {
 
             {
                 results ? (
-                    <>
+                    <div className="h-screen">
                         <main className="h-fit mr-10 mt-6 text-white flex gap-5 justify-between">
                             <div className="w-[40%]">
                                 <h2 className="text-3xl font-bold mb-5">Лучший результат</h2>
@@ -163,21 +163,45 @@ function Search() {
                                 }
                             </div>
                         </div>
-                    </>
+                    </div>
                 ) : (
-                    <div className="genres pt-10">
-                        <h1 className="text-white text-3xl font-bold pb-5">Your top genres</h1>
-                        <div className="top_genres flex items-center justify-start gap-8 flex-wrap">
-                            <div className="genre cursor-pointer">
-                                <img src="/images/pop.png" alt="" />
-                            </div>
-                            <div className="genre cursor-pointer">
-                                <img src="/images/hip_hop.png" alt="" />
-                            </div>
-                            <div className="genre cursor-pointer">
-                                <img src="/images/indie.png" alt="" />
+                    <div>
+                        <div className="genres pt-10">
+                            <h1 className="text-white text-3xl font-bold pb-5">Your top genres</h1>
+                            <div className="top_genres flex items-center justify-start gap-8 flex-wrap">
+                                <div className="genre cursor-pointer w-[350px]">
+                                    <img src="/images/pop.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[350px]">
+                                    <img src="/images/hip_hop.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[350px]">
+                                    <img src="/images/indie.png" alt="" />
+                                </div>
                             </div>
                         </div>
+                        <div className="browse pt-10"></div>
+                            <h1 className="text-white text-3xl font-bold pb-5">Browse all</h1>
+                            <div className="top_genres flex items-center justify-start gap-3 flex-wrap">
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/podcasts.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/special.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/charts.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/releases.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/discover.png" alt="" />
+                                </div>
+                                <div className="genre cursor-pointer w-[180px]">
+                                    <img src="/images/concerts.png" alt="" />
+                                </div>
+                            </div>
                     </div>
                 )
             }

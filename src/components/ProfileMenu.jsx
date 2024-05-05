@@ -35,7 +35,7 @@ function ProfileMenu() {
                 className="cursor-pointer flex items-center gap-2 bg-[#0A0A0A] rounded-3xl p-1 text-white select-none"
             >
                 {profile.images && profile.images.length > 0 ? (
-                    <img className="rounded-full object-cover w-[34px]" src={profile?.images[0].url} alt="" />
+                    <img className="rounded-full object-contain w-[35px]" src={profile?.images[0].url} alt="" />
                 ) : (
                     <FaUserCircle size={34} />
                 )}

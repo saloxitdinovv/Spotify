@@ -1,6 +1,4 @@
 import { useContext, useEffect, useState } from "react"
-import { FaHeart, FaPlay } from "react-icons/fa";
-import { Audio } from 'react-loader-spinner'
 import Track from "../components/Track";
 import { artistsString, toMinutes } from "../../helpers/utils";
 import { PLaylistContext } from "../../context/PlaylistCTX";
@@ -33,7 +31,6 @@ export default function PLaylist_page() {
             .then(res => res.json())
             .then(res => {
                 setPLaylist(res)
-                console.log(res);
                 setTracks(res.tracks.items)
                 setPLaylist_ctx(res.tracks.items)
             })
