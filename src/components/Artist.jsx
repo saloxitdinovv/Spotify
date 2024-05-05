@@ -1,20 +1,22 @@
+import { FaRegUserCircle } from "react-icons/fa";
 
 
-
-function Artist({img_src, artist_playlist, artist_name}) {
-
-
+function Artist({ img_src, nickName, type }) {
     return (
-        <>
-            <div className="cursor-pointer artist flex flex-col gap-6 py-6 px-7 bg-[#181818] hover:bg-[#282828] transition">
-                <img className='rounded-2xl w-[190px] h-[190px] object-cover' src={img_src} alt="" />
-                <div className="artist_info flex flex-col gap-1.5">
-                    <h1 className='artist_playlist text-xl text-white'>{artist_playlist}</h1>
-                    <h6 className='artist_name text-base text-white'>{artist_name}</h6>
-                </div>
-            </div>
-        </>
-    )
+        <div className="singer w-[225px] p-3 rounded select-none cursor-pointer hover:bg-[#2a2a2a] transition duration-300 ease-in-out flex items-center flex-col justify-center gap-2">
+            {
+                img_src ? (
+                    <img className="w-[185px] h-[185px] object-cover rounded-full mb-1" src={img_src} alt={nickName} />
+                ) : (
+                    <FaRegUserCircle size={185} />
+                )
+            }
+            <span className="justify-self-start	self-start">
+                <h4 className="text-base font-medium text-white">{nickName}</h4>
+                <span className="text-[#969696] font-medium text-sm">{type}</span>
+            </span>
+        </div>
+    );
 }
 
-export default Artist
+export default Artist;

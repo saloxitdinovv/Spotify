@@ -34,54 +34,32 @@ export default function PLayer() {
             audio_ref.current.play()
             setPlay(true)
         }
-
     }, [track])
 
-    function nextTrack() {
-        const curr_track = playlist_ctx[track.index + 1]
-        const next_track = {
-            img: curr_track.track.album.images[0].url,
-            name: curr_track.track.name,
-            singers: artistsString(curr_track.track.artists),
-            duration: toMinutes(curr_track.track.duration_ms),
-            album: curr_track.track.album.name,
-            date: curr_track.track.release_date,
-            src: curr_track.track.preview_url,
-            index: track.index + 1
-        }
-        setTrack(next_track)
-    }
-
-    // function nextTrack() {
-    //     const nextIndex = (track.index + 1) % playlist_ctx.length;
-    //     const next_track = {
-    //         img: playlist_ctx[nextIndex].track.album.images[0].url,
-    //         name: playlist_ctx[nextIndex].track.name,
-    //         singers: artistsString(playlist_ctx[nextIndex].track.artists),
-    //         duration: toMinutes(playlist_ctx[nextIndex].track.duration_ms),
-    //         album: playlist_ctx[nextIndex].track.album.name,
-    //         date: playlist_ctx[nextIndex].track.release_date,
-    //         src: playlist_ctx[nextIndex].track.preview_url,
-    //         index: nextIndex
-    //     };
-    //     setTrack(next_track);
-    // }
-    
-
     function prevTrack() {
-        const curr_track = playlist_ctx[track.index - 1]
-        const prev_track = {
-            img: curr_track.track.album.images[0].url,
-            name: curr_track.track.name,
-            singers: artistsString(curr_track.track.artists),
-            duration: toMinutes(curr_track.track.duration_ms),
-            album: curr_track.track.album.name,
-            date: curr_track.track.release_date,
-            src: curr_track.track.preview_url,
-            index: track.index - 1
-        }
-        setTrack(prev_track)
+        const prevIndex = (track.index - 1 + playlist_ctx.length) % playlist_ctx.length;
+        setTrack(createTrackObject(prevIndex));
     }
+
+    function nextTrack() {
+        const nextIndex = (track.index + 1) % playlist_ctx.length;
+        setTrack(createTrackObject(nextIndex));
+    }
+
+    function createTrackObject(index) {
+        const trackObj = playlist_ctx[index].track;
+        return {
+            img: trackObj.album.images[0].url,
+            name: trackObj.name,
+            singers: artistsString(trackObj.artists),
+            duration: toMinutes(trackObj.duration_ms),
+            album: trackObj.album.name,
+            date: trackObj.release_date,
+            src: trackObj.preview_url,
+            index: index
+        };
+    }
+
 
     const togglePlay = () => {
         if (play) {
@@ -135,7 +113,7 @@ export default function PLayer() {
                     >
                         <MdSkipPrevious size={24} />
                     </button>
-                    <button className="p-[8px] text-center bg-white rounded-full" onClick={togglePlay}>
+                    <button className="play p-[8px] text-center bg-white rounded-full" onClick={togglePlay}>
                         {
                             play ? <IoPauseSharp size={24} /> : <IoPlay size={24} />
                         }

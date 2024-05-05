@@ -11,8 +11,10 @@ export default function Home() {
         localStorage.getItem('token')
     )
 
+    const url = import.meta.env.VITE_PUBLIC_URL
+
     useEffect(() => {
-        fetch(import.meta.env.VITE_PUBLIC_URL + '/browse/featured-playlists', {
+        fetch(url + '/browse/featured-playlists', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22,7 +24,7 @@ export default function Home() {
                 setAlbums(res.playlists.items)
             })
 
-            fetch(import.meta.env.VITE_PUBLIC_URL + '/me', {
+            fetch(url + '/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -32,7 +34,7 @@ export default function Home() {
                     setProfile(res)
                 })
 
-                fetch(import.meta.env.VITE_PUBLIC_URL + '/artists?ids=2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6', {
+                fetch(url + '/artists?ids=2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -66,7 +68,8 @@ export default function Home() {
                             <Artist
                                 key={item.id}
                                 img_src={item.images[0].url}
-                                artist_name={item.name}
+                                nickName={item.name}
+                                type={item.type}
                             />
                         ))
                     ) : (

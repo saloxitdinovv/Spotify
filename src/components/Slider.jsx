@@ -48,7 +48,6 @@ export default function CustomRangeSliderPlayer() {
         onChange={(e) => {
           setSliderValue(e.target.value);
           updatePlayTime(e.target.value);
-          console.log(e.target.value);
         }}
       />
     </div>

@@ -25,17 +25,17 @@ export default function PLaylist_page() {
         const id = location.pathname.split('/').at(-1)
         const token = localStorage.getItem('token')
 
-        fetch(`${import.meta.env.VITE_PUBLIC_URL}/playlists/${id}`, {
+        fetch(`${import.meta.env.VITE_PUBLIC_URL}/albums/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
             .then(res => res.json())
             .then(res => {
-                setPLaylist(res)
                 console.log(res);
-                setTracks(res.tracks.items)
-                setPLaylist_ctx(res.tracks.items)
+                // setPLaylist(res)
+                // setTracks(res.tracks.items)
+                // setPLaylist_ctx(res.tracks.items)
             })
     }, [])
 

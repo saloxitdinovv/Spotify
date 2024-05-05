@@ -12,30 +12,40 @@ import { LuClock3 } from "react-icons/lu";
 
 
 export default function PLaylist_page() {
-    const [tracks, setTracks] = useState([])
-    const [playlist, setPLaylist] = useState([])
-    const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
-    const [play, setPlay] = useState(false)
+    // const [tracks, setTracks] = useState([])
+    // const [playlist, setPLaylist] = useState([])
+    // const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
+    // const [play, setPlay] = useState(false)
+    const [artist, setArtist] = useState([])
 
-    const handleStartPlaying = () => {
-        setPlay(!play);
-    };
+    // const handleStartPlaying = () => {
+    //     setPlay(!play);
+    // };
+
+    function renderGenres(arr) {
+        if (!arr || arr.length === 0) {
+            return null;
+        }
+
+        return arr.join(', ');
+    }
 
     useEffect(() => {
         const id = location.pathname.split('/').at(-1)
         const token = localStorage.getItem('token')
 
-        fetch(`${import.meta.env.VITE_PUBLIC_URL}/playlists/${id}`, {
+        fetch(`${import.meta.env.VITE_PUBLIC_URL}/artists/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
             .then(res => res.json())
             .then(res => {
-                setPLaylist(res)
                 console.log(res);
-                setTracks(res.tracks.items)
-                setPLaylist_ctx(res.tracks.items)
+                setArtist(res)
+                // setPLaylist(res)
+                // setTracks(res.tracks.items)
+                // setPLaylist_ctx(res.tracks.items)
             })
     }, [])
 
@@ -45,8 +55,28 @@ export default function PLaylist_page() {
             <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616] pb-10"></div>
 
 
-
             {
+                artist?.name ? (
+                    <section className="flex gap-6 pt-6 pb-10">
+                        <div className="playlist_img">
+                            <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={artist?.images[0]?.url} alt="playlist-card" />
+                        </div>
+                        <div className="playlist_info flex flex-col justify-end gap-3">
+                            <h3 className="text-xl uppercase font-bold text-white">{artist.type}</h3>
+                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize">{artist.name}</h1>
+                            <p className="text-[#cbc8c4] capitalize">popularity: {artist.popularity}</p>
+                            <div className="flex  text-[#cbc8c4]">
+                                <span className="text-white cursor-pointer hover:underline">{renderGenres(artist?.genres)}</span>
+                            </div>
+                            <h5 className="text-[#cbc8c4]">Followers: {artist?.followers.total}</h5>
+                        </div>
+                    </section>
+                ) : (
+                    <p>loading</p>
+                )
+            }
+
+            {/* {
                 playlist?.tracks ? (
                     <section className="flex gap-6 pt-6 pb-10">
                         <div className="playlist_img">
@@ -73,8 +103,36 @@ export default function PLaylist_page() {
                         </div>
                     </section>
                 )
-            }
-
+            } */}
+            {/* {
+                artist ? (
+                    <section className="flex gap-6 pt-6 pb-10">
+                        <div className="playlist_img">
+                            <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]"  alt="playlist-card" />
+                        </div>
+                        <div className="playlist_info flex flex-col justify-end gap-3">
+                            <h3 className="text-xl uppercase font-bold text-white">{artist.type}</h3>
+                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize">{artist.name}</h1>
+                            <p className="text-[#cbc8c4] capitalize">popularity: {artist.popularity}</p>
+                            <div className="flex  text-[#cbc8c4]">
+                                <span className="text-white cursor-pointer hover:underline">{artist?.genres[0]}</span>
+                                <h5>Followers: {artist?.followers.total}</h5>
+                            </div>
+                        </div>
+                    </section>
+                ) : (
+                    <section className="flex gap-6 pt-6 pb-10">
+                        <div className="playlist_img max-w-[290px] max-h-[300px] w-[250px] h-[260px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                        <div className="playlist_info flex flex-col justify-end gap-3">
+                            <div className="text-xl uppercase font-bold text-white w-[130px] h-5 bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="text-7xl font-bold w-[80%] text-5xl text-white capitalize bg-[#c4c4c4] opacity-20 rounded-lg w-[500px] h-[150px]"></div>
+                            <div className="text-[#cbc8c4] w-[355px] h-[25px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                            <div className="text-[#cbc8c4] w-[355px] h-[25px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
+                        </div>
+                    </section>
+                )
+            } */}
+            {/* 
             <div className="tools flex gap-10">
                 <button className="start_playing p-4 rounded-full bg-[#1fdf64] flex items-center justify-center hover:scale-[1.03]" onClick={handleStartPlaying}>
                     {
@@ -134,7 +192,7 @@ export default function PLaylist_page() {
                         ))
                     )
                 }
-            </div>
+            </div> */}
         </>
     )
 
