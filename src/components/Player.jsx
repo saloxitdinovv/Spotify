@@ -52,7 +52,7 @@ export default function PLayer() {
             .then(res => res.json())
             .then(res => {
                 setRecent(res.items.at(-1).track)
-                console.log(res.items);
+                // console.log(res.items);
             })
     }, [track])
 
@@ -67,15 +67,15 @@ export default function PLayer() {
     }
 
     function createTrackObject(index) {
-        const trackObj = playlist_ctx[index].track;
+        const trackObj = playlist_ctx[index]?.track;
         return {
-            img: trackObj.album.images[0].url,
-            name: trackObj.name,
-            singers: artistsString(trackObj.artists),
-            duration: toMinutes(trackObj.duration_ms),
-            album: trackObj.album.name,
-            date: trackObj.release_date,
-            src: trackObj.preview_url,
+            img: trackObj?.album?.images[0].url,
+            name: trackObj?.name,
+            singers: artistsString(trackObj?.artists),
+            duration: toMinutes(trackObj?.duration_ms),
+            album: trackObj?.album.name,
+            date: trackObj?.release_date,
+            src: trackObj?.preview_url,
             index: index
         };
     }

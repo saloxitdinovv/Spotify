@@ -12,15 +12,15 @@ import { LuClock3 } from "react-icons/lu";
 
 
 export default function PLaylist_page() {
-    // const [tracks, setTracks] = useState([])
-    // const [playlist, setPLaylist] = useState([])
-    // const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
-    // const [play, setPlay] = useState(false)
+    const [tracks, setTracks] = useState([])
+    const [playlist, setPLaylist] = useState([])
+    const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
+    const [play, setPlay] = useState(false)
     const [artist, setArtist] = useState([])
 
-    // const handleStartPlaying = () => {
-    //     setPlay(!play);
-    // };
+    const handleStartPlaying = () => {
+        setPlay(!play);
+    };
 
     function renderGenres(arr) {
         if (!arr || arr.length === 0) {
@@ -47,13 +47,36 @@ export default function PLaylist_page() {
                 // setTracks(res.tracks.items)
                 // setPLaylist_ctx(res.tracks.items)
             })
+        fetch(`${import.meta.env.VITE_PUBLIC_URL}/artists/${id}/top-tracks`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                // setArtist(res)
+                setPLaylist(res)
+                setTracks(res.tracks.items)
+                setPLaylist_ctx(res.tracks.items)
+            })
     }, [])
 
 
     return (
         <>
-            <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616] pb-10"></div>
+            {/* <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616] pb-10"></div> */}
 
+
+
+            <div className="absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#00000070] to-[#161616] opacity-100 pb-10"></div>
+
+            {
+                artist?.name ? (
+                    <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-5] bg-no-repeat bg-cover pb-10 bg-center" style={{ backgroundImage: `url(${artist.images[0].url})` }}></div>
+                ) : (
+                    <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-full z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616] pb-10"></div>
+                )
+            }
 
             {
                 artist?.name ? (
@@ -72,27 +95,6 @@ export default function PLaylist_page() {
                         </div>
                     </section>
                 ) : (
-                    <p>loading</p>
-                )
-            }
-
-            {/* {
-                playlist?.tracks ? (
-                    <section className="flex gap-6 pt-6 pb-10">
-                        <div className="playlist_img">
-                            <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
-                        </div>
-                        <div className="playlist_info flex flex-col justify-end gap-3">
-                            <h3 className="text-xl uppercase font-bold text-white">{playlist.type}</h3>
-                            <h1 className="text-7xl font-bold w-[80%] text-5xl text-white capitalize    ">{playlist.name}</h1>
-                            <p className="text-[#cbc8c4]">{playlist.description}</p>
-                            <div className="flex  text-[#cbc8c4]">
-                                <span className="text-white cursor-pointer hover:underline">{playlist.owner.display_name}</span>
-                                <h5>, {playlist.tracks.items.length} треков</h5>
-                            </div>
-                        </div>
-                    </section>
-                ) : (
                     <section className="flex gap-6 pt-6 pb-10">
                         <div className="playlist_img max-w-[290px] max-h-[300px] w-[250px] h-[260px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
                         <div className="playlist_info flex flex-col justify-end gap-3">
@@ -103,7 +105,8 @@ export default function PLaylist_page() {
                         </div>
                     </section>
                 )
-            } */}
+            }
+
             {/* {
                 artist ? (
                     <section className="flex gap-6 pt-6 pb-10">
@@ -132,7 +135,7 @@ export default function PLaylist_page() {
                     </section>
                 )
             } */}
-            {/* 
+
             <div className="tools flex gap-10">
                 <button className="start_playing p-4 rounded-full bg-[#1fdf64] flex items-center justify-center hover:scale-[1.03]" onClick={handleStartPlaying}>
                     {
@@ -177,22 +180,22 @@ export default function PLaylist_page() {
                             <div className="w-full h-[55px] bg-[#c4c4c4] opacity-20 rounded-lg"></div>
                         </div>
                     ) : (
-                        playlist.tracks.items.map((item, idx) => (
+                        playlist.tracks.map((item, idx) => (
                             <Track
-                                img={item.track.album.images[0].url}
-                                name={item.track.name}
-                                singers={artistsString(item.track.artists)}
-                                duration={toMinutes(item.track.duration_ms)}
-                                album={item.track.album.name}
-                                date={item.added_at}
-                                src={item.track.preview_url}
+                                img={item.album.images[0].url}
+                                name={item.name}
+                                singers={artistsString(item.artists)}
+                                duration={toMinutes(item.duration_ms)}
+                                album={item.album.name}
+                                date={item.album.release_date}
+                                src={item.preview_url}
                                 index={idx}
                                 key={idx}
                             />
                         ))
                     )
                 }
-            </div> */}
+            </div>
         </>
     )
 
