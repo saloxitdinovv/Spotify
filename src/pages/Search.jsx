@@ -88,7 +88,7 @@ function Search() {
                         <div className="songers mt-8 text-white">
                             <h2 className="text-3xl font-bold mb-5">Исполнители</h2>
 
-                            <div className="singers grid grid-cols-5">
+                            <div className="singers flex flex-wrap gap-5">
                                 {
                                     results.artists.items.map((item, idx) => (
                                         <Link to={'/artists/' + item.id} key={item.id}>
@@ -108,7 +108,7 @@ function Search() {
                         <div className="albums mt-8 text-white">
                             <h2 className="text-3xl font-bold mb-5">Albums</h2>
 
-                            <div className="albums_grid grid grid-cols-5">
+                            <div className="albums_flex flex flex-wrap gap-5">
                                 {
                                     results.albums.items.map((item, idx) => (
                                         <Link to={'/albums/' + item.id} key={item.id}>
@@ -127,7 +127,7 @@ function Search() {
                         <div className="playlists mt-8 text-white">
                             <h2 className="text-3xl font-bold mb-5">Playlists</h2>
 
-                            <div className="playlists_grid grid grid-cols-5">
+                            <div className="playlists_flex flex flex-wrap gap-5">
                                 {
                                     results.playlists.items.map((item, idx) => (
                                         <Link to={'/playlist/' + item.id} key={item.id}>
@@ -150,7 +150,7 @@ function Search() {
                             <div className="podcasts_grid grid grid-cols-5">
                                 {
                                     results.shows.items.map((item, idx) => (
-                                        <Link to={'/audiobooks/' + item.id} key={item.id}>
+                                        <Link to={'/shows/' + item.id} key={item.id}>
                                             <PlaylistCard
                                                 key={item.id}
                                                 img_src={item.images[0].url}
